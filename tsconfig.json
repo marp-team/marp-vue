@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "jsx": "preserve",
+    "experimentalDecorators": true,
+    "jsx": "react",
     "jsxFactory": "h",
     "lib": ["es2016", "es2017", "dom"],
     "moduleResolution": "node",
     "noImplicitAny": false,
     "sourceMap": false,
     "strict": true,
-    "target": "es2015"
+    "target": "es2015",
+    "rootDirs": ["src", "stories"],
+    "baseUrl": "."
   },
   "include": ["src"]
 }

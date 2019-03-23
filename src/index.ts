@@ -1,1 +1,1 @@
-export { Marp } from './Marp'
+export { Marp, Marp as MarpRenderer } from './Marp'

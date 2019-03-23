@@ -1,5 +1,6 @@
 # @marp-team/marp-vue
 
+[![Storybook](https://raw.githubusercontent.com/storybooks/brand/master/badge/badge-storybook.svg?sanitize=true)](https://marp-vue.netlify.com/)
 [![CircleCI](https://img.shields.io/circleci/project/github/marp-team/marp-vue/master.svg?style=flat-square&logo=circleci)](https://circleci.com/gh/marp-team/marp-vue/)
 [![Codecov](https://img.shields.io/codecov/c/github/marp-team/marp-vue/master.svg?style=flat-square&logo=codecov)](https://codecov.io/gh/marp-team/marp-vue)
 [![npm](https://img.shields.io/npm/v/@marp-team/marp-vue.svg?style=flat-square&logo=npm)](https://www.npmjs.com/package/@marp-team/marp-vue)

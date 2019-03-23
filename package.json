@@ -37,15 +37,21 @@
     "lint:js": "eslint \"**/*.{js,jsx,ts,tsx}\"",
     "prepack": "npm-run-all --npm-path yarn --parallel check:* lint:* test:coverage --parallel build:* types",
     "preversion": "npm-run-all --npm-path yarn --parallel check:* lint:* test:coverage",
+    "storybook": "start-storybook -p 6006",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "types": "rimraf types && tsc --declaration --emitDeclarationOnly --outDir types",
     "version": "curl https://raw.githubusercontent.com/marp-team/marp/master/version.js | node && git add -A CHANGELOG.md"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.0",
     "@marp-team/marp-core": "^0.7.1",
+    "@storybook/vue": "^5.0.3",
     "@types/jest": "^24.0.9",
+    "@types/storybook__vue": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
+    "babel-loader": "^8.0.5",
+    "babel-preset-vue": "^2.0.2",
     "codecov": "^3.2.0",
     "eslint": "5.15.3",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -57,7 +63,12 @@
     "prettier": "^1.16.4",
     "rimraf": "^2.6.3",
     "ts-jest": "^24.0.0",
-    "typescript": "^3.3.4000"
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.3.4000",
+    "vue": "^2.6.10",
+    "vue-class-component": "^7.0.1",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "peerDependencies": {
     "@marp-team/marp-core": ">=0.6.0",
