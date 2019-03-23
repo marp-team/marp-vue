@@ -1,0 +1,1 @@
+export { Marp } from './Marp'

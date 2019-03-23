@@ -1,0 +1,74 @@
+{
+  "name": "@marp-team/marp-vue",
+  "version": "0.0.0",
+  "description": "Marp renderer component for Vue",
+  "license": "MIT",
+  "author": {
+    "name": "Marp team",
+    "url": "https://github.com/marp-team"
+  },
+  "contributors": [
+    {
+      "name": "Yuki Hattori",
+      "url": "https://github.com/yhatt"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marp-team/marp-vue"
+  },
+  "main": "lib/index.js",
+  "module": "module/index.js",
+  "sideEffects": false,
+  "types": "types/index.d.ts",
+  "files": [
+    "lib/",
+    "module/",
+    "types/"
+  ],
+  "scripts": {
+    "build:cjs": "rimraf lib && tsc --module commonjs --outDir lib",
+    "build:module": "rimraf module && tsc --module esnext --outDir module",
+    "check:audit": "yarn audit",
+    "check:format": "yarn --silent format -c",
+    "check:ts": "tsc --noEmit",
+    "format": "prettier \"**/*.{css,js,json,jsx,md,scss,ts,tsx,yaml,yml}\"",
+    "format:write": "yarn --silent format --write",
+    "lint:js": "eslint \"**/*.{js,jsx,ts,tsx}\"",
+    "prepack": "npm-run-all --npm-path yarn --parallel check:* lint:* test:coverage --parallel build:* types",
+    "preversion": "npm-run-all --npm-path yarn --parallel check:* lint:* test:coverage",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "types": "rimraf types && tsc --declaration --emitDeclarationOnly --outDir types",
+    "version": "curl https://raw.githubusercontent.com/marp-team/marp/master/version.js | node && git add -A CHANGELOG.md"
+  },
+  "devDependencies": {
+    "@marp-team/marp-core": "^0.7.1",
+    "@types/jest": "^24.0.9",
+    "@typescript-eslint/eslint-plugin": "^1.4.2",
+    "codecov": "^3.2.0",
+    "eslint": "5.15.3",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "jest": "^24.1.0",
+    "jest-junit": "^6.3.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.3",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.3.4000"
+  },
+  "peerDependencies": {
+    "@marp-team/marp-core": ">=0.6.0",
+    "vue": ">=2.5.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  }
+}
