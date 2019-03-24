@@ -40,7 +40,7 @@ UNDER CONSTRUCTION
 
 ## ToDo
 
-- [ ] Implement Vue renderer component based on [our prototype](https://codesandbox.io/s/2x994l3roj)
+- [x] Implement Vue renderer component based on [our prototype](https://codesandbox.io/s/2x994l3roj)
 - [ ] Support rendering in worker
   - [ ] Allow using worker via CDN (`importScript()`)
   - [ ] Use worker hosted on CDN by default

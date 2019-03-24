@@ -11,4 +11,8 @@ parserOptions:
   project: ./tsconfig.json
 
 rules:
+  '@typescript-eslint/explicit-function-return-type': off
+  '@typescript-eslint/explicit-member-accessibility': off
+  class-methods-use-this: off
   import/no-unresolved: off
+  import/no-extraneous-dependencies: off
