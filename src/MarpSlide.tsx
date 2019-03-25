@@ -9,13 +9,15 @@ import { containerClassSymbol } from './utils/symbol'
 export class MarpSlide extends Vue {
   @Prop({ type: Array, required: true }) slide!: any[]
 
-  @Inject(containerClassSymbol) readonly containerClass!: string
+  @Inject(containerClassSymbol) readonly $_containerClass!: string
 
   render(createElement: CreateElement): VNode {
     const h = bridge(createElement)
 
     return (
-      <div class={this.containerClass}>{render(createElement, this.slide)}</div>
+      <div class={this.$_containerClass}>
+        {render(createElement, this.slide)}
+      </div>
     )
   }
 }

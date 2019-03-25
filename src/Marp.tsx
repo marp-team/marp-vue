@@ -12,7 +12,7 @@ import { containerClassSymbol } from './utils/symbol'
 @Component({
   components: { MarpSlide, MarpStyle },
   provide() {
-    return { [containerClassSymbol]: this.$data.containerClass }
+    return { [containerClassSymbol]: this.$data.$_containerClass }
   },
 })
 export class Marp extends Vue {
@@ -24,21 +24,20 @@ export class Marp extends Vue {
     const containerIdentifier = identifier()
 
     return Object.freeze({
-      containerClass: `marp-${containerIdentifier}`,
-      styleId: `marp-class-${containerIdentifier}`,
+      $_containerClass: `marp-${containerIdentifier}`,
     })
   }
 
-  get componentStyle() {
-    const { containerClass } = this.$data
+  get $_componentStyle() {
+    const { $_containerClass } = this.$data
 
     return [
-      `div.${containerClass}{all:initial;}`,
-      `div.${containerClass} > svg[data-marpit-svg]{display:block;will-change:transform;}`,
+      `div.${$_containerClass}{all:initial;}`,
+      `div.${$_containerClass} > svg[data-marpit-svg]{display:block;will-change:transform;}`,
     ].join('\n')
   }
 
-  get marp() {
+  get $_marp() {
     return new MarpCore({
       ...this.options,
       container: false,
@@ -46,12 +45,12 @@ export class Marp extends Vue {
         ...(this.options.markdown || {}),
         xhtmlOut: true,
       },
-      slideContainer: { tag: 'div', class: this.$data.containerClass },
+      slideContainer: { tag: 'div', class: this.$data.$_containerClass },
     })
   }
 
-  get rendered() {
-    const { html, css, comments } = this.marp.render(this.markdown || '', {
+  get $_rendered() {
+    const { html, css, comments } = this.$_marp.render(this.markdown || '', {
       htmlAsArray: true,
     })
 
@@ -73,11 +72,11 @@ export class Marp extends Vue {
     return (
       <div>
         <marp-style>
-          {this.rendered.css}
-          {this.componentStyle}
+          {this.$_rendered.css}
+          {this.$_componentStyle}
         </marp-style>
         {(this.$scopedSlots.default || defaultRenderer)({
-          slides: this.rendered.slides,
+          slides: this.$_rendered.slides,
         })}
       </div>
     )
