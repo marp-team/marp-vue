@@ -44,15 +44,13 @@ storiesOf('Marp', module)
       },
     },
     template: `
-      <MarpRenderer :markdown="markdown">
-        <template slot-scope="{ slides }">
-          <div :style="{ margin: '40px' }" v-for="s in slides">
-            <div :style="{ boxShadow: '0 5px 10px #ccc' }">
-              <MarpSlide :slide="s.slide" />
-            </div>
-            <p v-for="comment in s.comments" v-text="comment" />
+      <MarpRenderer :markdown="markdown" v-slot="{ slides }">
+        <div :style="{ margin: '40px' }" v-for="s in slides">
+          <div :style="{ boxShadow: '0 5px 10px #ccc' }">
+            <MarpSlide :slide="s.slide" />
           </div>
-        </template>
+          <p v-for="comment in s.comments" v-text="comment" />
+        </div>
       </MarpRenderer>
     `,
   }))
