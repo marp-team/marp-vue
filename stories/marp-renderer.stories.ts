@@ -13,7 +13,7 @@ storiesOf('Marp', module)
         default: text('Markdown', '# Hello, world!'),
       },
     },
-    template: '<marp-renderer :markdown="markdown"></marp-renderer>',
+    template: '<MarpRenderer :markdown="markdown" />',
   }))
   .add('Multiple slides', () => ({
     components,
@@ -22,7 +22,7 @@ storiesOf('Marp', module)
         default: text('Markdown', '# Page 1\n\n---\n\n# Page 2'),
       },
     },
-    template: '<marp-renderer :markdown="markdown"></marp-renderer>',
+    template: '<MarpRenderer :markdown="markdown" />',
   }))
   .add('Theme support', () => ({
     components,
@@ -31,7 +31,7 @@ storiesOf('Marp', module)
         default: text('Markdown', '<!-- theme: gaia -->\n\n# Theme support'),
       },
     },
-    template: '<marp-renderer :markdown="markdown"></marp-renderer>',
+    template: '<MarpRenderer :markdown="markdown" />',
   }))
   .add('Custom renderer', () => ({
     components,
@@ -44,15 +44,15 @@ storiesOf('Marp', module)
       },
     },
     template: `
-      <marp-renderer :markdown="markdown">
+      <MarpRenderer :markdown="markdown">
         <template slot-scope="{ slides }">
           <div :style="{ margin: '40px' }" v-for="s in slides">
             <div :style="{ boxShadow: '0 5px 10px #ccc' }">
-              <marp-slide :slide="s.slide"></marp-slide>
+              <MarpSlide :slide="s.slide" />
             </div>
             <p v-for="comment in s.comments" v-text="comment" />
           </div>
         </template>
-      </marp-renderer>
+      </MarpRenderer>
     `,
   }))
