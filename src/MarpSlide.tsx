@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue, { CreateElement, VNode } from 'vue'
 import Component from 'vue-class-component'
 import { Prop, Inject } from 'vue-property-decorator'
 import bridge from './utils/bridge'
@@ -11,7 +11,7 @@ export class MarpSlide extends Vue {
 
   @Inject(containerClassSymbol) readonly containerClass!: string
 
-  render(createElement) {
+  render(createElement: CreateElement): VNode {
     const h = bridge(createElement)
 
     return (

@@ -1,5 +1,5 @@
 import { Marp as MarpCore, MarpOptions } from '@marp-team/marp-core'
-import Vue from 'vue'
+import Vue, { CreateElement, VNode } from 'vue'
 import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
 import MarpSlide from './MarpSlide'
@@ -65,7 +65,7 @@ export class Marp extends Vue {
     MarpCore.ready()
   }
 
-  render(createElement) {
+  render(createElement: CreateElement): VNode {
     const h = bridge(createElement)
     const defaultRenderer = ({ slides }) =>
       slides.map(({ slide }) => <marp-slide slide={slide} />)

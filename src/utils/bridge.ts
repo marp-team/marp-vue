@@ -1,5 +1,10 @@
-export default function hBridge(h: Function) {
+import { CreateElement, VNodeChildren, VNodeData } from 'vue'
+
+export default function hBridge(h: CreateElement) {
   // Create bridge to createElement method for React
-  return (element: string | Function, attrs: object, ...rest: any[]) =>
-    h(element, { attrs }, rest)
+  return (
+    tag: string | Function,
+    attrs: VNodeData['attrs'],
+    ...rest: VNodeChildren[]
+  ) => h(tag, { attrs }, rest)
 }
