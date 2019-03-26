@@ -8,19 +8,13 @@ storiesOf('Marp', module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .add('Basic usage', () => ({
     components,
-    props: {
-      markdown: {
-        default: text('Markdown', '# Hello, world!'),
-      },
-    },
+    props: { markdown: { default: text('Markdown', '# Hello, world!') } },
     template: '<MarpRenderer :markdown="markdown" />',
   }))
   .add('Multiple slides', () => ({
     components,
     props: {
-      markdown: {
-        default: text('Markdown', '# Page 1\n\n---\n\n# Page 2'),
-      },
+      markdown: { default: text('Markdown', '# Page 1\n\n---\n\n# Page 2') },
     },
     template: '<MarpRenderer :markdown="markdown" />',
   }))
@@ -51,6 +45,19 @@ storiesOf('Marp', module)
           </div>
           <p v-for="comment in s.comments" v-text="comment" />
         </div>
-      </MarpRenderer>
+      </Marp>
+    `,
+  }))
+  .add('Multiple components', () => ({
+    components,
+    props: {
+      markdownLeft: { default: text('Markdown (Left)', '# Left') },
+      markdownRight: { default: text('Markdown (Right)', '# Right') },
+    },
+    template: `
+      <div :style="{ display: 'flex' }">
+        <MarpRenderer :style="{ flex: 1 }" :markdown="markdownLeft" />
+        <MarpRenderer :style="{ flex: 1 }" :markdown="markdownRight" />
+      </div>
     `,
   }))

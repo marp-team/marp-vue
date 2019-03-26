@@ -46,3 +46,17 @@ storiesOf('MarpWorker', module)
       </MarpWorker>
     `,
   }))
+  .add('Multiple components', () => ({
+    components,
+    props: {
+      markdownLeft: { default: text('Markdown (Left)', '# Left') },
+      markdownRight: { default: text('Markdown (Right)', '# Right') },
+      worker: { default: () => worker },
+    },
+    template: `
+      <div style="display:flex;">
+        <MarpWorker style="flex:1;" :markdown="markdownLeft" :worker="worker" />
+        <MarpWorker style="flex:1;" :markdown="markdownRight" :worker="worker" />
+      </div>
+    `,
+  }))
