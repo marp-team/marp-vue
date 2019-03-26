@@ -115,7 +115,7 @@ export class MarpWorker extends Vue {
     return (
       <div>
         {rendered && h('style', {}, rendered.css, this.$_marpworker_style)}
-        {((!rendered && this.$scopedSlots.loading) ||
+        {((!rendered && this.$scopedSlots.initial) ||
           this.$scopedSlots.default ||
           defaultRenderer)(rendered)}
       </div>
