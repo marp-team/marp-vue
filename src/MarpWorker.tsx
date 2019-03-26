@@ -41,7 +41,14 @@ export class MarpWorker extends Vue {
 
   @Prop({ type: Object, default: () => ({}) }) options!: MarpOptions
 
-  @Prop({ type: Worker, default: CDNWorker }) worker!: Worker
+  @Prop({
+    default: CDNWorker,
+    validator: obj => {
+      const { Worker } = window as any
+      return obj && (Worker ? obj instanceof Worker : true)
+    },
+  })
+  worker!: Worker
 
   data() {
     const containerIdentifier = identifier()
