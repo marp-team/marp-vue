@@ -32,7 +32,7 @@ export default function editor(preview) {
     data: () => ({ containerStyle, editorStyle, previewContainerStyle }),
     template: `
       <div :style="containerStyle">
-        <textarea v-model="markdown" :style="editorStyle" />
+        <textarea :value="markdown" v-on:input="markdown = $event.target.value" :style="editorStyle" />
         <div :style="previewContainerStyle">
           <PreviewPane :markdown="markdown" style="margin:20px;" />
         </div>
