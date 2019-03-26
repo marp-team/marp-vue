@@ -1,3 +1,3 @@
-export const containerClassSymbol = Symbol('marp-vue-container-class')
+export const containerSymbol = Symbol('marp-vue-container')
 
-export default { containerClassSymbol }
+export default { containerSymbol }

@@ -6,7 +6,8 @@ import { Prop } from 'vue-property-decorator'
 import MarpSlide from './MarpSlide'
 import bridge from './utils/bridge'
 import identifier from './utils/identifier'
-import { containerClassSymbol } from './utils/symbol'
+import style from './utils/style'
+import { containerSymbol } from './utils/symbol'
 import { listen, send } from './utils/worker'
 
 let memoizedCDNWorker: Worker | undefined
@@ -25,7 +26,7 @@ const CDNWorker = () => {
 @Component({
   components: { MarpSlide },
   provide() {
-    return { [containerClassSymbol]: this.$data.$_marpworker_container.class }
+    return { [containerSymbol]: this.$data.$_marpworker_container.class }
   },
   watch: {
     markdown(this: MarpWorker) {
@@ -61,7 +62,11 @@ export class MarpWorker extends Vue {
     }
   }
 
-  get $_marpOptions(): MarpOptions {
+  get $_marpworker_style() {
+    return style(this.$data.$_marpworker_container.class)
+  }
+
+  get $_marpworker_options(): MarpOptions {
     return {
       ...this.options,
       container: false,
@@ -109,7 +114,7 @@ export class MarpWorker extends Vue {
 
     return (
       <div>
-        {rendered && h('style', {}, rendered.css)}
+        {rendered && h('style', {}, rendered.css, this.$_marpworker_style)}
         {((!rendered && this.$scopedSlots.loading) ||
           this.$scopedSlots.default ||
           defaultRenderer)(rendered)}
@@ -123,7 +128,7 @@ export class MarpWorker extends Vue {
       this.$data.$_marpworker_container.class,
       'render',
       this.markdown || '',
-      this.$_marpOptions
+      this.$_marpworker_options
     )
   }
 }

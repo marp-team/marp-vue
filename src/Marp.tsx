@@ -6,12 +6,13 @@ import MarpSlide from './MarpSlide'
 import bridge from './utils/bridge'
 import identifier from './utils/identifier'
 import parse from './utils/parse'
-import { containerClassSymbol } from './utils/symbol'
+import style from './utils/style'
+import { containerSymbol } from './utils/symbol'
 
 @Component({
   components: { MarpSlide },
   provide() {
-    return { [containerClassSymbol]: this.$data.$_marp_containerClass }
+    return { [containerSymbol]: this.$data.$_marp_container }
   },
 })
 export class Marp extends Vue {
@@ -23,7 +24,7 @@ export class Marp extends Vue {
     const containerIdentifier = identifier()
 
     return Object.freeze({
-      $_marp_containerClass: `marp-${containerIdentifier}`,
+      $_marp_container: `marp-${containerIdentifier}`,
     })
   }
 
@@ -35,17 +36,12 @@ export class Marp extends Vue {
         ...(this.options.markdown || {}),
         xhtmlOut: true,
       },
-      slideContainer: { tag: 'div', class: this.$data.$_marp_containerClass },
+      slideContainer: { tag: 'div', class: this.$data.$_marp_container },
     })
   }
 
-  get $_marp_componentStyle() {
-    const { $_marp_containerClass: container } = this.$data
-
-    return [
-      `div.${container}{all:initial;}`,
-      `div.${container} > svg[data-marpit-svg]{display:block;will-change:transform;}`,
-    ].join('\n')
+  get $_marp_style() {
+    return style(this.$data.$_marp_container)
   }
 
   get $_marp_rendered() {
@@ -70,7 +66,7 @@ export class Marp extends Vue {
 
     return (
       <div>
-        {h('style', {}, this.$_marp_rendered.css, this.$_marp_componentStyle)}
+        {h('style', {}, this.$_marp_rendered.css, this.$_marp_style)}
         {(this.$scopedSlots.default || defaultRenderer)({
           slides: this.$_marp_rendered.slides,
         })}
