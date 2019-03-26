@@ -1,5 +1,3 @@
-import * as components from '../src/index'
-
 const containerStyle = {
   display: 'flex',
   position: 'absolute',
@@ -27,17 +25,11 @@ const previewContainerStyle = {
   overflowY: 'auto',
 }
 
-export default function editor(args) {
+export default function editor(preview) {
   return {
-    components: {
-      PreviewPane: args,
-    },
-    props: args.props,
-    data: () => ({
-      containerStyle,
-      editorStyle,
-      previewContainerStyle,
-    }),
+    components: { PreviewPane: preview },
+    props: preview.props,
+    data: () => ({ containerStyle, editorStyle, previewContainerStyle }),
     template: `
       <div :style="containerStyle">
         <textarea v-model="markdown" :style="editorStyle" />

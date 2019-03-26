@@ -59,6 +59,7 @@ export class MarpWorker extends Vue {
         class: `marp-${containerIdentifier}`,
       }),
       $_marpworker_rendered: undefined,
+      $_marpworker_queue: false,
     }
   }
 
@@ -95,6 +96,18 @@ export class MarpWorker extends Vue {
               comments: rendered.comments[i],
             })),
           })
+
+          const {
+            $_marpworker_container: c,
+            $_marpworker_queue: q,
+          } = this.$data
+
+          if (q !== false && q !== true) {
+            send(this.worker, c.class, 'render', q[0], q[1])
+            this.$data.$_marpworker_queue = true
+          } else {
+            this.$data.$_marpworker_queue = false
+          }
         },
       },
       this.$data.$_marpworker_container.class
@@ -123,13 +136,21 @@ export class MarpWorker extends Vue {
   }
 
   private $_updateMarkdown() {
-    send(
-      this.worker,
-      this.$data.$_marpworker_container.class,
-      'render',
-      this.markdown || '',
-      this.$_marpworker_options
-    )
+    if (this.$data.$_marpworker_queue) {
+      this.$data.$_marpworker_queue = [
+        this.markdown || '',
+        this.$_marpworker_options,
+      ]
+    } else {
+      this.$data.$_marpworker_queue = true
+      send(
+        this.worker,
+        this.$data.$_marpworker_container.class,
+        'render',
+        this.markdown || '',
+        this.$_marpworker_options
+      )
+    }
   }
 }
 
