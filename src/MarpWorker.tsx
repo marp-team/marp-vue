@@ -7,7 +7,7 @@ import MarpSlide from './MarpSlide'
 import bridge from './utils/bridge'
 import identifier from './utils/identifier'
 import { containerClassSymbol } from './utils/symbol'
-import { send, listen } from './utils/worker'
+import { listen, send } from './utils/worker'
 
 let memoizedCDNWorker: Worker | undefined
 
@@ -79,17 +79,21 @@ export class MarpWorker extends Vue {
   mounted(this: any) {
     MarpReady()
 
-    listen(this.worker, {
-      rendered: rendered => {
-        this.$data.$_marpworker_rendered = Object.freeze({
-          css: rendered.css,
-          slides: rendered.slides.map((h, i) => ({
-            slide: h,
-            comments: rendered.comments[i],
-          })),
-        })
+    listen(
+      this.worker,
+      {
+        rendered: rendered => {
+          this.$data.$_marpworker_rendered = Object.freeze({
+            css: rendered.css,
+            slides: rendered.slides.map((h, i) => ({
+              slide: h,
+              comments: rendered.comments[i],
+            })),
+          })
+        },
       },
-    })
+      this.$data.$_marpworker_container.class
+    )
 
     this.$_updateMarkdown()
   }
@@ -114,7 +118,13 @@ export class MarpWorker extends Vue {
   }
 
   private $_updateMarkdown() {
-    send(this.worker, 'render', this.markdown || '', this.$_marpOptions)
+    send(
+      this.worker,
+      this.$data.$_marpworker_container.class,
+      'render',
+      this.markdown || '',
+      this.$_marpOptions
+    )
   }
 }
 
