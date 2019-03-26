@@ -3,14 +3,13 @@ import Vue, { CreateElement, VNode } from 'vue'
 import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
 import MarpSlide from './MarpSlide'
-import MarpStyle from './MarpStyle'
 import bridge from './utils/bridge'
 import identifier from './utils/identifier'
 import parse from './utils/parse'
 import { containerClassSymbol } from './utils/symbol'
 
 @Component({
-  components: { MarpSlide, MarpStyle },
+  components: { MarpSlide },
   provide() {
     return { [containerClassSymbol]: this.$data.$_marp_containerClass }
   },
@@ -71,10 +70,7 @@ export class Marp extends Vue {
 
     return (
       <div>
-        <marp-style>
-          {this.$_marp_rendered.css}
-          {this.$_marp_componentStyle}
-        </marp-style>
+        {h('style', {}, this.$_marp_rendered.css, this.$_marp_componentStyle)}
         {(this.$scopedSlots.default || defaultRenderer)({
           slides: this.$_marp_rendered.slides,
         })}

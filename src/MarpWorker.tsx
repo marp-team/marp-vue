@@ -4,7 +4,6 @@ import Vue, { CreateElement, VNode } from 'vue'
 import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
 import MarpSlide from './MarpSlide'
-import MarpStyle from './MarpStyle'
 import bridge from './utils/bridge'
 import identifier from './utils/identifier'
 import { containerClassSymbol } from './utils/symbol'
@@ -24,7 +23,7 @@ const CDNWorker = () => {
 }
 
 @Component({
-  components: { MarpSlide, MarpStyle },
+  components: { MarpSlide },
   provide() {
     return { [containerClassSymbol]: this.$data.$_marpworker_container.class }
   },
@@ -97,20 +96,12 @@ export class MarpWorker extends Vue {
 
     const { $_marpworker_rendered: rendered } = this.$data
 
-    if (rendered) {
-      return (
-        <div>
-          <marp-style>{rendered.css}</marp-style>
-          {(this.$scopedSlots.default || defaultRenderer)(rendered)}
-        </div>
-      )
-    }
-
     return (
       <div>
-        {(this.$scopedSlots.loading ||
+        {rendered && h('style', {}, rendered.css)}
+        {((!rendered && this.$scopedSlots.loading) ||
           this.$scopedSlots.default ||
-          defaultRenderer)({})}
+          defaultRenderer)(rendered)}
       </div>
     )
   }
