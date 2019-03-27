@@ -8,8 +8,6 @@
 
 **[Marp](https://marp.app) renderer component for [Vue].**
 
-### :warning: Currently Marp Vue is under developing and not ready to use.
-
 [vue]: https://vuejs.org/index.html
 
 ## Before using Marp Vue
@@ -164,6 +162,7 @@ You can use it just by swapping from `MarpRenderer` to `MarpWorker`. By default,
 
 <script>
 import { MarpWorker } from '@marp-team/marp-vue'
+
 export default { components: { MarpWorker } }
 </script>
 ```
@@ -210,12 +209,12 @@ You may show waiting user a loading message as follows:
     </div>
   </div>
   <p v-else>
-    Loading...
+    Loading Marp Worker...
   </p>
 </MarpWorker>
 ```
 
-Or `initial` [named slot](https://vuejs.org/v2/guide/components-slots.html#Named-Slots) allows definition of template to show while loading worker:
+Or `initial` [named slot](https://vuejs.org/v2/guide/components-slots.html#Named-Slots) allows showing individually defined template while loading worker:
 
 ```html
 <MarpWorker markdown="# Hello, Marp Worker!">
