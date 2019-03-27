@@ -20,8 +20,6 @@ This component is suited to create presentation tools integrated with Marp by Vu
 
 [eagle.js]: https://github.com/zulko/eagle.js/
 
-<!--
-
 ## Install
 
 ```bash
@@ -34,9 +32,83 @@ npm install --save @marp-team/marp-core @marp-team/marp-vue
 
 ## Usage
 
-UNDER CONSTRUCTION
+### Marp renderer component
 
--->
+This is a simple usage of Marp renderer component. It renders slides via [inline SVG](https://marpit.marp.app/inline-svg) to `<div>` elements.
+
+```vue
+<template>
+  <div id="app">
+    <MarpRenderer :markdown="markdown">
+  </div>
+</template>
+
+<script>
+import { MarpRenderer } from '@marp-team/marp-vue'
+
+const markdown = `
+# Page 1
+
+---
+
+## Page 2`
+
+export default {
+  components: { MarpRenderer },
+  data: () => ({ markdown }),
+}
+</script>
+```
+
+```html
+<div id="app">
+  <div class="marp-xxxxxxxx">
+    <svg data-marpit-svg viewBox="0 0 1280 960">
+      <foreignObject width="1280" height="960">
+        <section><h1>Page 1</h1></section>
+      </foreignObject>
+    </svg>
+  </div>
+  <div class="marp-xxxxxxxx">
+    <svg data-marpit-svg viewBox="0 0 1280 960">
+      <foreignObject width="1280" height="960">
+        <section><h2>Page 2</h2></section>
+      </foreignObject>
+    </svg>
+  </div>
+</div>
+```
+
+> We also provide `Marp` component and actually `MarpRenderer` is an alias to `Marp`. We recommend to use `MarpRenderer` becasue [the multi-word component name is an essential rule in Vue style guide.](https://vuejs.org/v2/style-guide/index.html#Multi-word-component-names-essential)
+
+#### Constructor option
+
+[Marp constructor options](https://github.com/marp-team/marp-core#constructor-options) can change in `options` prop.
+
+```vue
+<template>
+  <div id="app">
+    <MarpRenderer markdown=":+1:" :options="options">
+  </div>
+</template>
+
+<script>
+import { MarpRenderer } from '@marp-team/marp-vue'
+
+const options = {
+  inlineSVG: false,
+  emoji: {
+    shortcode: true,
+    unicode: true,
+  },
+}
+
+export default {
+  components: { MarpRenderer },
+  data: () => ({ options }),
+}
+</script>
+```
 
 ## ToDo
 
