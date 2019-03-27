@@ -1,13 +1,8 @@
-import { MarpOptions } from '@marp-team/marp-core'
-import MarpReady from '@marp-team/marp-core/lib/browser.cjs'
-import Vue, { CreateElement, VNode } from 'vue'
+import { CreateElement, VNode } from 'vue'
 import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
-import MarpSlide from './MarpSlide'
+import MarpBase from './MarpBase'
 import bridge from './utils/bridge'
-import identifier from './utils/identifier'
-import style from './utils/style'
-import { containerSymbol } from './utils/symbol'
 import { listen, send } from './utils/worker'
 
 let memoizedCDNWorker: Worker | undefined
@@ -24,10 +19,6 @@ const CDNWorker = () => {
 }
 
 @Component({
-  components: { MarpSlide },
-  provide() {
-    return { [containerSymbol]: this.$data.$_marpworker_container.class }
-  },
   watch: {
     markdown(this: MarpWorker) {
       this.$_updateMarkdown()
@@ -37,11 +28,7 @@ const CDNWorker = () => {
     },
   },
 })
-export class MarpWorker extends Vue {
-  @Prop({ type: String }) markdown: string | undefined
-
-  @Prop({ type: Object, default: () => ({}) }) options!: MarpOptions
-
+export class MarpWorker extends MarpBase {
   @Prop({
     default: CDNWorker,
     validator: obj => {
@@ -52,39 +39,13 @@ export class MarpWorker extends Vue {
   worker!: Worker
 
   data() {
-    const containerIdentifier = identifier()
-
     return {
-      $_marpworker_container: Object.freeze({
-        class: `marp-${containerIdentifier}`,
-      }),
       $_marpworker_rendered: undefined,
       $_marpworker_queue: false,
     }
   }
 
-  get $_marpworker_style() {
-    return style(this.$data.$_marpworker_container.class)
-  }
-
-  get $_marpworker_options(): MarpOptions {
-    return {
-      ...this.options,
-      container: false,
-      markdown: {
-        ...(this.options.markdown || {}),
-        xhtmlOut: true,
-      },
-      slideContainer: {
-        tag: 'div',
-        class: this.$data.$_marpworker_container.class,
-      },
-    }
-  }
-
-  mounted(this: any) {
-    MarpReady()
-
+  mounted(this: MarpWorker) {
     listen(
       this.worker,
       {
@@ -97,10 +58,7 @@ export class MarpWorker extends Vue {
             })),
           })
 
-          const {
-            $_marpworker_container: c,
-            $_marpworker_queue: q,
-          } = this.$data
+          const { $_marp_container: c, $_marpworker_queue: q } = this.$data
 
           if (q !== false && q !== true) {
             send(this.worker, c.class, 'render', q[0], q[1])
@@ -110,7 +68,7 @@ export class MarpWorker extends Vue {
           }
         },
       },
-      this.$data.$_marpworker_container.class
+      this.$data.$_marp_container.class
     )
 
     this.$_updateMarkdown()
@@ -127,7 +85,7 @@ export class MarpWorker extends Vue {
 
     return (
       <div>
-        {rendered && h('style', {}, rendered.css, this.$_marpworker_style)}
+        {rendered && h('style', {}, rendered.css, this.$_marp_style)}
         {((!rendered && this.$scopedSlots.initial) ||
           this.$scopedSlots.default ||
           defaultRenderer)(rendered)}
@@ -137,18 +95,15 @@ export class MarpWorker extends Vue {
 
   private $_updateMarkdown() {
     if (this.$data.$_marpworker_queue) {
-      this.$data.$_marpworker_queue = [
-        this.markdown || '',
-        this.$_marpworker_options,
-      ]
+      this.$data.$_marpworker_queue = [this.markdown || '', this.$_marp_options]
     } else {
       this.$data.$_marpworker_queue = true
       send(
         this.worker,
-        this.$data.$_marpworker_container.class,
+        this.$data.$_marp_container.class,
         'render',
         this.markdown || '',
-        this.$_marpworker_options
+        this.$_marp_options
       )
     }
   }
