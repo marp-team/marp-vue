@@ -10,7 +10,7 @@
 
 ### :warning: Currently Marp Vue is under developing and not ready to use.
 
-[vue]: https://jp.vuejs.org/index.html
+[vue]: https://vuejs.org/index.html
 
 ## Before using Marp Vue
 
@@ -108,6 +108,127 @@ export default {
   data: () => ({ options }),
 }
 </script>
+```
+
+#### Custom renderer
+
+You can use a custom renderer by passing slot content to children. [`MarpSlide`](./src/MarpSlide.tsx) component is required to render slides provided by slot props.
+
+```vue
+<template>
+  <div id="app">
+    <MarpRenderer :markdown="markdown" v-slot="slides">
+      <div class="slide" v-for="(s, i) in slides" :key="i">
+        <MarpSlide :slide="s.slide" />
+        <p v-for="(comment, i) in s.comments" v-text="comment" :key="i" />
+      </div>
+    </MarpRenderer>
+  </div>
+</template>
+
+<script>
+import { MarpRenderer, MarpSlide } from '@marp-team/marp-vue'
+
+const markdown = '# :a: <!-- A -->\n\n---\n\n# :b: <!-- B -->'
+
+export default {
+  components: { MarpRenderer, MarpSlide },
+  data: () => ({ markdown }),
+}
+</script>
+```
+
+> :information_source: See also [Scoped Slots](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots) in the document of Vue.
+
+### `MarpWorker` component _(Experimental)_
+
+For the best performance of the integrated web app, `MarpWorker` component allows using [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) for Markdown conversion. It has a lot of clear advantages over a regular `MarpRenderer` component.
+
+- It does not block UI thread while converting large Markdown.
+- A blazing fast live preview by a simple but clever queueing system is available.
+- No longer need to include a huge Marp Core into main JS.
+- Web Worker will be loaded asynchronously, so the first paint will not block.
+
+The renderer using worker may be default component of Marp Vue in future.
+
+#### Basic usage
+
+You can use it just by swapping from `MarpRenderer` to `MarpWorker`. By default, `MarpWorker` will use a pre-built worker via [jsDelivr](https://www.jsdelivr.com/) CDN.
+
+```vue
+<template>
+  <div id="app">
+    <MarpWorker markdown="# Hello, Marp Worker!" />
+  </div>
+</template>
+
+<script>
+import { MarpWorker } from '@marp-team/marp-vue'
+export default { components: { MarpWorker } }
+</script>
+```
+
+#### Use custom worker
+
+The custom worker may specify via `worker` prop.
+
+```vue
+<template>
+  <div id="app">
+    <MarpWorker :worker="worker" markdown="# Hello, Marp Worker!" />
+  </div>
+</template>
+
+<script>
+import { MarpWorker } from '@marp-team/marp-vue'
+
+export default {
+  components: { MarpWorker },
+  data: () => ({
+    worker: new Worker('worker.js'),
+  }),
+}
+</script>
+```
+
+```javascript
+// worker.js
+require('@marp-team/marp-vue/lib/worker')()
+```
+
+#### Initial rendering
+
+`MarpWorker`'s custom renderer might be called with `undefined` slides argument, unlike `Marp`. It means an initial rendering of the component while preparing worker.
+
+You may show waiting user a loading message as follows:
+
+```html
+<MarpWorker markdown="# Hello, Marp Worker!" v-slot="slides">
+  <div class="marp" v-if="slides">
+    <div class="slide" v-for="(s, i) in slides" :key="i">
+      <MarpSlide :slide="s.slide" />
+    </div>
+  </div>
+  <p v-else>
+    Loading...
+  </p>
+</MarpWorker>
+```
+
+Or `initial` [named slot](https://vuejs.org/v2/guide/components-slots.html#Named-Slots) allows definition of template to show while loading worker:
+
+```html
+<MarpWorker markdown="# Hello, Marp Worker!">
+  <template #initial>
+    <p>Loading...</p>
+  </template>
+
+  <template #default="slides">
+    <div class="slide" v-for="(s, i) in slides" :key="i">
+      <MarpSlide :slide="s.slide" />
+    </div>
+  </template>
+</MarpWorker>
 ```
 
 ## ToDo
