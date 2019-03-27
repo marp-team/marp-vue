@@ -43,7 +43,7 @@ export default function editor(
     },
     template: `
       <div :style="containerStyle">
-        <textarea :value="buffer" v-on:input="buffer = $event.target.value" :style="editorStyle" />
+        <textarea :value="buffer" @input="buffer = $event.target.value" :style="editorStyle" />
         <div :style="previewContainerStyle">
           <PreviewPane :markdown="buffer" style="margin:20px;" />
         </div>
