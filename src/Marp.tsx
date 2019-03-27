@@ -25,15 +25,15 @@ export class Marp extends MarpBase {
 
   render(createElement: CreateElement): VNode {
     const h = bridge(createElement)
-    const defaultRenderer = ({ slides }) =>
+    const defaultRenderer = slides =>
       slides.map(({ slide }) => <marp-slide slide={slide} />)
 
     return (
       <div>
         {h('style', {}, this.$_marp_rendered.css, this.$_marp_style)}
-        {(this.$scopedSlots.default || defaultRenderer)({
-          slides: this.$_marp_rendered.slides,
-        })}
+        {(this.$scopedSlots.default || defaultRenderer)(
+          this.$_marp_rendered.slides
+        )}
       </div>
     )
   }

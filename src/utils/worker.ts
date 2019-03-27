@@ -1,6 +1,6 @@
 import { MarpOptions } from '@marp-team/marp-core'
 
-const protocol = 'marp-vue'
+const protocol = 'marp-vue-v0'
 
 interface MarpWorkerEvent extends MessageEvent {
   scope: string

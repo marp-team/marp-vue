@@ -58,7 +58,7 @@ storiesOf('MarpWorker', module)
           <template #initial>
             <p>Loading...</p>
           </template>
-          <template v-slot="{ slides }">
+          <template v-slot="slides">
             <div :style="{ margin: '40px' }" v-for="s in slides">
               <div :style="{ boxShadow: '0 5px 10px #ccc' }">
                 <MarpSlide :slide="s.slide" />

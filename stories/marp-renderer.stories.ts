@@ -38,7 +38,7 @@ storiesOf('Marp', module)
         },
       },
       template: `
-        <MarpRenderer :markdown="markdown" v-slot="{ slides }">
+        <MarpRenderer :markdown="markdown" v-slot="slides">
           <div style="margin:40px;" v-for="s in slides">
             <div style="box-shadow:0 5px 10px #ccc;">
               <MarpSlide :slide="s.slide" />

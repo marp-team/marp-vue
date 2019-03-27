@@ -38,19 +38,21 @@ export class MarpWorker extends MarpBase {
   })
   worker!: Worker
 
+  private $_marpWorker_destructor: Function | undefined
+
   data() {
     return {
-      $_marpworker_rendered: undefined,
-      $_marpworker_queue: false,
+      $_marpWorker_rendered: undefined,
+      $_marpWorker_queue: false,
     }
   }
 
-  mounted(this: MarpWorker) {
-    listen(
+  mounted() {
+    this.$_marpWorker_destructor = listen(
       this.worker,
       {
         rendered: rendered => {
-          this.$data.$_marpworker_rendered = Object.freeze({
+          this.$data.$_marpWorker_rendered = Object.freeze({
             css: rendered.css,
             slides: rendered.slides.map((h, i) => ({
               slide: h,
@@ -58,13 +60,13 @@ export class MarpWorker extends MarpBase {
             })),
           })
 
-          const { $_marp_container: c, $_marpworker_queue: q } = this.$data
+          const { $_marp_container: c, $_marpWorker_queue: q } = this.$data
 
           if (q !== false && q !== true) {
             send(this.worker, c.class, 'render', q[0], q[1])
-            this.$data.$_marpworker_queue = true
+            this.$data.$_marpWorker_queue = true
           } else {
-            this.$data.$_marpworker_queue = false
+            this.$data.$_marpWorker_queue = false
           }
         },
       },
@@ -74,30 +76,34 @@ export class MarpWorker extends MarpBase {
     this.$_updateMarkdown()
   }
 
+  destroyed() {
+    if (this.$_marpWorker_destructor) this.$_marpWorker_destructor()
+  }
+
   render(createElement: CreateElement): VNode {
     const h = bridge(createElement)
-    const defaultRenderer = rendered =>
-      rendered && Object.keys(rendered).length > 0
-        ? rendered.slides.map(({ slide }) => <marp-slide slide={slide} />)
+    const defaultRenderer = slides =>
+      slides
+        ? slides.map(({ slide }) => <marp-slide slide={slide} />)
         : undefined
 
-    const { $_marpworker_rendered: rendered } = this.$data
+    const { $_marpWorker_rendered: rendered } = this.$data
 
     return (
       <div>
         {rendered && h('style', {}, rendered.css, this.$_marp_style)}
         {((!rendered && this.$scopedSlots.initial) ||
           this.$scopedSlots.default ||
-          defaultRenderer)(rendered)}
+          defaultRenderer)((rendered || {}).slides)}
       </div>
     )
   }
 
   private $_updateMarkdown() {
-    if (this.$data.$_marpworker_queue) {
-      this.$data.$_marpworker_queue = [this.markdown || '', this.$_marp_options]
+    if (this.$data.$_marpWorker_queue) {
+      this.$data.$_marpWorker_queue = [this.markdown || '', this.$_marp_options]
     } else {
-      this.$data.$_marpworker_queue = true
+      this.$data.$_marpWorker_queue = true
       send(
         this.worker,
         this.$data.$_marp_container.class,
