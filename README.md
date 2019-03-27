@@ -41,9 +41,9 @@ UNDER CONSTRUCTION
 ## ToDo
 
 - [x] Implement Vue renderer component based on [our prototype](https://codesandbox.io/s/2x994l3roj)
-- [ ] Support rendering in worker
-  - [ ] Allow using worker via CDN (`importScript()`)
-  - [ ] Use worker hosted on CDN by default
+- [x] Support rendering in worker
+  - [x] Allow using worker via CDN (`importScript()`)
+  - [x] Use worker hosted on CDN by default
 - [ ] Support additional theme(s)
 - [ ] Support swapping engine (e.g. [Marpit](https://github.com/marp-team/marpit))
 

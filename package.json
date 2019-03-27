@@ -29,6 +29,7 @@
   "scripts": {
     "build:cjs": "rimraf lib && tsc --module commonjs --outDir lib",
     "build:module": "rimraf module && tsc --module esnext --outDir module",
+    "build:worker": "rimraf dist && webpack --mode production",
     "check:audit": "yarn audit",
     "check:format": "yarn --silent format -c",
     "check:ts": "tsc --noEmit",
@@ -76,6 +77,8 @@
     "vue-loader": "^15.7.0",
     "vue-property-decorator": "^8.1.0",
     "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
     "worker-loader": "^2.0.0"
   },
   "peerDependencies": {
