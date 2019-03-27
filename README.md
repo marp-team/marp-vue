@@ -39,7 +39,7 @@ This is a simple usage of Marp renderer component. It renders slides via [inline
 ```vue
 <template>
   <div id="app">
-    <MarpRenderer :markdown="markdown">
+    <MarpRenderer :markdown="markdown" />
   </div>
 </template>
 
@@ -61,7 +61,7 @@ export default {
 ```
 
 ```html
-<div id="app">
+<div>
   <div class="marp-xxxxxxxx">
     <svg data-marpit-svg viewBox="0 0 1280 960">
       <foreignObject width="1280" height="960">
@@ -79,7 +79,7 @@ export default {
 </div>
 ```
 
-> We also provide `Marp` component and actually `MarpRenderer` is an alias to `Marp`. We recommend to use `MarpRenderer` becasue [the multi-word component name is an essential rule in Vue style guide.](https://vuejs.org/v2/style-guide/index.html#Multi-word-component-names-essential)
+> We also provide [`Marp`](./src/Marp.tsx) component and actually `MarpRenderer` is an alias to `Marp`. We recommend to use `MarpRenderer` becasue [the multi-word component name is an essential rule in Vue style guide.](https://vuejs.org/v2/style-guide/index.html#Multi-word-component-names-essential)
 
 #### Constructor option
 
@@ -88,7 +88,7 @@ export default {
 ```vue
 <template>
   <div id="app">
-    <MarpRenderer markdown=":+1:" :options="options">
+    <MarpRenderer markdown=":+1:" :options="options" />
   </div>
 </template>
 
