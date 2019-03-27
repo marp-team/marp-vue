@@ -48,7 +48,9 @@
   "dependencies": {
     "he": "^1.2.0",
     "htm": "^2.1.1",
-    "nanoid": "^2.0.1"
+    "nanoid": "^2.0.1",
+    "vue-class-component": "^7.0.2",
+    "vue-property-decorator": "^8.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -74,9 +76,7 @@
     "ts-loader": "^5.3.3",
     "typescript": "^3.3.4000",
     "vue": "^2.6.10",
-    "vue-class-component": "^7.0.2",
     "vue-loader": "^15.7.0",
-    "vue-property-decorator": "^8.1.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
