@@ -24,6 +24,18 @@ storiesOf('MarpWorker', module)
       template: '<MarpWorker :markdown="markdown" :worker="worker" />',
     })
   )
+  .add('Use worker via CDN', () =>
+    editor({
+      components,
+      props: {
+        markdown: {
+          default: () =>
+            '# Use worker via CDN\n\nBy default, MarpWorker uses prebuilt worker via jsDelivr CDN.',
+        },
+      },
+      template: '<MarpWorker :markdown="markdown" />',
+    })
+  )
   .add('Large Markdown', () => {
     const markdown = largeMd(
       [
