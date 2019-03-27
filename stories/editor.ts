@@ -25,16 +25,27 @@ const previewContainerStyle = {
   overflowY: 'auto',
 }
 
-export default function editor(preview) {
+export default function editor(
+  preview: Record<string, any> & {
+    props: Record<string, any> & { markdown: any }
+  }
+) {
   return {
     components: { PreviewPane: preview },
     props: preview.props,
-    data: () => ({ containerStyle, editorStyle, previewContainerStyle }),
+    data(this: any) {
+      return {
+        buffer: this.markdown,
+        containerStyle,
+        editorStyle,
+        previewContainerStyle,
+      }
+    },
     template: `
       <div :style="containerStyle">
-        <textarea :value="markdown" v-on:input="markdown = $event.target.value" :style="editorStyle" />
+        <textarea :value="buffer" v-on:input="buffer = $event.target.value" :style="editorStyle" />
         <div :style="previewContainerStyle">
-          <PreviewPane :markdown="markdown" style="margin:20px;" />
+          <PreviewPane :markdown="buffer" style="margin:20px;" />
         </div>
       </div>
     `,

@@ -45,7 +45,7 @@ storiesOf('Marp', module)
             </div>
             <p v-for="comment in s.comments" v-text="comment" />
           </div>
-        </Marp>
+        </MarpRenderer>
       `,
     })
   )
