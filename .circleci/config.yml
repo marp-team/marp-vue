@@ -18,7 +18,7 @@ references:
 
             [ -n "$YARN_IGNORE_ENGINES" ] && echo '--install.ignore-engines true' >> ~/.yarnrc || true
           environment:
-            YARN_VERSION: 1.15.2
+            YARN_VERSION: 1.16.0
 
       - checkout
 
