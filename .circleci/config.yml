@@ -1,7 +1,7 @@
 references:
   base: &base
     docker:
-      - image: circleci/node:10.16.0
+      - image: circleci/node:10.16.3
     working_directory: ~/marp-vue
     steps:
       - run: node --version
@@ -18,7 +18,7 @@ references:
 
             [ -n "$YARN_IGNORE_ENGINES" ] && echo '--install.ignore-engines true' >> ~/.yarnrc || true
           environment:
-            YARN_VERSION: 1.16.0
+            YARN_VERSION: 1.17.3
 
       - checkout
 
