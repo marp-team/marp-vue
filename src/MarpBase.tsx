@@ -47,9 +47,7 @@ export default class MarpBase extends Vue {
   get $_marp_style(): string {
     return `
 div.${this.$data.$_marp_container.class}{all:initial;}
-div.${
-      this.$data.$_marp_container.class
-    } > svg[data-marpit-svg]{display:block;will-change:transform;}
+div.${this.$data.$_marp_container.class} > svg[data-marpit-svg]{display:block;will-change:transform;}
     `.trim()
   }
 
