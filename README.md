@@ -10,6 +10,8 @@
 
 [vue]: https://vuejs.org/index.html
 
+### :warning: Currently Marp Vue is inactive.
+
 ## Before using Marp Vue
 
 This component is suited to create presentation tools integrated with Marp by Vue. Marp would create the static slide contents consist of plain HTML and CSS, so you have to notice that **it's not suited to control the content of your slide by Vue**.
